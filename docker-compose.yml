@@ -1,0 +1,31 @@
+services:
+  # Uso local (não é o que roda no CI — lá o Testcontainers sobe o
+  # container sozinho). Isto aqui é pra quando você quer rodar a
+  # aplicação inteira na sua máquina, com um banco igual ao que os
+  # testes usam.
+  #
+  #   docker compose up -d
+  #
+  services:
+    postgres:
+      # Tag com patch fixo. "postgres:latest" ou até só "postgres:17"
+      # (sem o patch) já foram responsáveis por gente subir uma versão
+      # maior sem querer e a aplicação parar de subir porque uma extensão
+      # ou um tipo de coluna mudou de comportamento entre versões.
+      image: postgres:17.2-alpine
+      environment:
+        POSTGRES_DB: clinic
+        POSTGRES_USER: clinic
+        POSTGRES_PASSWORD: clinic
+      ports:
+        - "5432:5432"
+      healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -U clinic" ]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+      volumes:
+        - clinic-postgres-data:/var/lib/postgresql/data
+
+  volumes:
+    clinic-postgres-data:

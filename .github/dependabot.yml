@@ -1,0 +1,29 @@
+# Isto é a resposta a "sempre pegar dependência atualizada que quebra
+# Alguma coisa": a solução não é nunca atualizar (aí você acumula CVE
+# não corrigida) nem deixar tudo em "latest" (aí atualiza sozinho e
+# quebra sem avisar). É isto aqui: versão sempre EXATA no pom.xml/YAML,
+# e o Dependabot abre um PR, um de cada vez, toda semana, propondo o
+# bump — o seu pipeline de CI roda nesse PR como em qualquer outro, e só
+# vira merge se passar. Você (ou o time) decide quando, revisando o
+# changelog da versão nova, em vez de "descobrir" a atualização quando
+# algo já quebrou em produção.
+
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
