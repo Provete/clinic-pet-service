@@ -19,8 +19,8 @@ public class Pet {
     private LocalDate birthDate;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name="owner_id", nullable = false)
-    private Owner owner;
+    @JoinColumn(name="id", nullable = false)
+    public Owner owner;
 
     protected Pet() {
         // exigido pelo JPA

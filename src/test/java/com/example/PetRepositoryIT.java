@@ -39,15 +39,25 @@ class PetRepositoryIT {
     // Ver README.md para a opção ainda mais rígida (pin por digest sha256).
 
     @Autowired
-    private PetRepository repository;
+    private PetRepository petRepository;
+
+    @Autowired
+    private OwnerRepository ownerRepository;
 
     @Test
     void devePersistirEBuscarPetNoBancoReal() {
-        Pet salvo = repository.save(new Pet("Bidu", LocalDate.of(2019, 5, 20)));
+        Owner owner = new Owner("João", "28999485823");
+        Owner donoSalvo = ownerRepository.save(owner);
 
-        Optional<Pet> encontrado = repository.findById(salvo.getId());
+        Pet pet = new Pet("Bidu", LocalDate.of(2019, 5, 20));
+        pet.owner = donoSalvo;
+
+        Pet petSalvo = petRepository.save(pet);
+
+        Optional<Pet> encontrado = petRepository.findById(petSalvo.getId());
 
         assertThat(encontrado).isPresent();
         assertThat(encontrado.get().getName()).isEqualTo("Bidu");
+        assertThat(encontrado.get().owner).isNotNull();
     }
 }
