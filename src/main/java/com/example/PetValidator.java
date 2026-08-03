@@ -23,7 +23,7 @@ public final class PetValidator {
             return false;
         }
 
-        String trimmed = name.strip();
-        return !trimmed.isEmpty() && trimmed.length() <= MAX_NAME_LENGTH;
+        String stripped = name.strip();
+        return stripped.length() <= MAX_NAME_LENGTH;
     }
 }
