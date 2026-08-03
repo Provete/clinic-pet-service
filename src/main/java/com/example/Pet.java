@@ -1,13 +1,11 @@
 package com.example;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Audited;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name="pet")
 public class Pet {
 
     @Id
@@ -17,16 +15,20 @@ public class Pet {
     @Column(nullable = false)
     private String name;
 
-    @Column(name="birth_date")
+    @Column
     private LocalDate birthDate;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name="owner_id", nullable = false)
+    private Owner owner;
 
     protected Pet() {
         // exigido pelo JPA
     }
 
-    public Pet(String name, LocalDate birthDate) {
+    public Pet(String name, LocalDate birth_date) {
         this.name = name;
-        this.birthDate = birthDate;
+        this.birthDate = birth_date;
     }
 
     public Long getId() {

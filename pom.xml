@@ -8,8 +8,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <!-- Versão EXATA. Nunca "RELEASE" ou "LATEST" — essas palavras-chave
-             existem no Maven mas são banidas do Maven Central há anos
-             justamente porque tornam o build não-reprodutível: o mesmo
+             existem no Maven, mas são banidas do Maven Central há anos
+             justamente porque tornam a build não-reprodutível: o mesmo
              pom.xml passa a baixar coisas diferentes em dias diferentes. -->
         <version>4.1.0</version>
         <relativePath/>
@@ -22,6 +22,8 @@
 
     <properties>
         <java.version>21</java.version>
+        <commons-compress.version>1.26.1</commons-compress.version>
+
         <!-- Versões centralizadas aqui: um lugar só pra atualizar,
              e é o que o Dependabot (.github/dependabot.yml) vai editar
              automaticamente quando abrir PR de atualização. -->
@@ -30,6 +32,8 @@
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
         <jacoco.version>0.8.12</jacoco.version>
+        <postgresql.runtime.version>42.7.3</postgresql.runtime.version>
+        <flyway.version>13.1.0</flyway.version>
     </properties>
 
     <dependencies>
@@ -37,9 +41,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>${postgresql.runtime.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -56,7 +62,18 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.26.1</version>
+            <version>${commons-compress.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
 
         <dependency>
